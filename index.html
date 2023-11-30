@@ -17,8 +17,8 @@
     </style>
 </head>
 
-<body class="flex flex-col justify-center items-center min-h-screen dark:bg-[#0d0d0d] ">
-    <main class="border w-[90%] p-4 rounded-sm md:w-[65%] md:p-6">
+<body class="flex flex-col justify-center items-center min-h-screen dark:bg-[#0d0d0d]">
+    <main class="border w-[90%] p-4 rounded-sm border-black dark:border-white md:w-[65%] md:p-6">
         <div class="flex flex-col justify-between gap-12">
             <!-- Heading Div -->
             <div class="flex justify-between items-center gap-2">
@@ -34,27 +34,30 @@
             </div>
 
             <!-- Stopwatch Timer Div -->
-            <div class="flex justify-center items-center gap-2 text-xl tracking-wider dark:text-white md:text-3xl">
+            <div class="w-[37%] flex justify-center items-center ml-auto mr-auto text-xl tracking-wider dark:text-white md:text-3xl md:w-[30%]">
                 <!-- For Hours -->
-                <p></p>
+                <!-- <p></p> -->
                 <!-- For Minutes -->
-                <p class="">00</p>
+                <p id="minutes" class="flex-1 text-center">00</p>
                 <!-- Colon -->
-                <p> : </p>
+                <p class="">:</p>
                 <!-- For Seconds -->
-                <p class="">00</p>
+                <p id="seconds" class="flex-1 text-center">58</p>
                 <!-- Colon -->
-                <p> : </p>
+                <p class="flex">:</p>
                 <!-- For miliseconds -->
-                <p class="">00</p>
+                <p id="miliSeconds" class="flex-1 text-center">00</p>
             </div>
 
             <!-- Buttons Div -->
             <div class="flex justify-center gap-4">
-                <button class="fa fa-play p-2 px-3 text-sm rounded-full bg-[#e85637] dark:text-white md:p-4 md:px-5"></button>
+                <button id="playButton"
+                    class="fa fa-play p-2 px-3 text-sm rounded-full bg-[#e85637] text-white md:p-4 md:px-5 focus:outline-none">
+                </button>
             </div>
         </div>
     </main>
+    <script src="script.js"></script>
 </body>
 
 </html>
