@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="">
 
 <head>
     <meta charset="UTF-8">
@@ -19,7 +19,7 @@
 
 <body class="flex flex-col justify-center items-center min-h-screen dark:bg-[#0d0d0d]">
     <main class="border w-[90%] p-4 rounded-sm border-black dark:border-white md:w-[65%] md:p-6">
-        <div class="flex flex-col justify-between gap-12">
+        <div class="flex flex-col justify-between gap-16">
             <!-- Heading Div -->
             <div class="flex justify-between items-center gap-2">
                 <h1 class="text-2xl text-[#e85637] tracking-wider md:text-3xl">Stopwatch <span
@@ -34,15 +34,18 @@
             </div>
 
             <!-- Stopwatch Timer Div -->
-            <div class="w-[37%] flex justify-center items-center ml-auto mr-auto text-xl tracking-wider dark:text-white md:text-3xl md:w-[30%]">
+            <div
+                class="w-[50%] flex justify-center items-center ml-auto mr-auto text-xl tracking-wider dark:text-white md:text-3xl md:w-[40%]">
                 <!-- For Hours -->
-                <!-- <p></p> -->
+                <p id="hours" class="flex-1 text-center">00</p>
+                <!-- Colon -->
+                <p class="">:</p>
                 <!-- For Minutes -->
                 <p id="minutes" class="flex-1 text-center">00</p>
                 <!-- Colon -->
                 <p class="">:</p>
                 <!-- For Seconds -->
-                <p id="seconds" class="flex-1 text-center">58</p>
+                <p id="seconds" class="flex-1 text-center">00</p>
                 <!-- Colon -->
                 <p class="flex">:</p>
                 <!-- For miliseconds -->
@@ -51,6 +54,8 @@
 
             <!-- Buttons Div -->
             <div class="flex justify-center gap-4">
+                <button class="fa fa-square p-2 px-3 text-sm rounded-full bg-black text-white dark:text-black dark:bg-white md:p-4 md:px-5 focus:outline-none">
+                </button>
                 <button id="playButton"
                     class="fa fa-play p-2 px-3 text-sm rounded-full bg-[#e85637] text-white md:p-4 md:px-5 focus:outline-none">
                 </button>
