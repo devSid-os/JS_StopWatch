@@ -1,4 +1,5 @@
 const playButton = document.getElementById("playButton");
+const resetButton = document.getElementById("resetButton");
 var playStatus = false;
 var miliSecondsHtml = document.getElementById("miliSeconds");
 var secondsHtml = document.getElementById("seconds");
@@ -43,14 +44,24 @@ function startStopWatch() {
 playButton.addEventListener("click", function () {
     if (!playStatus) {
         playStatus = !playStatus;
-        playButton.classList.remove("fa","fa-play");
-        playButton.classList.add("fa","fa-pause");
+        playButton.classList.remove("fa", "fa-play");
+        playButton.classList.add("fa", "fa-pause");
         playInterval = setInterval(startStopWatch, 10);
     }
     else {
-        playButton.classList.remove("fa","fa-pause");
-        playButton.classList.add("fa","fa-play");
+        playButton.classList.remove("fa", "fa-pause");
+        playButton.classList.add("fa", "fa-play");
         clearInterval(playInterval);
         playStatus = !playStatus;
     }
 });
+
+resetButton.addEventListener("click", function () {
+    clearInterval(playInterval);
+    playStatus = !playStatus;
+    miliSecondsHtml.textContent = "00";
+    secondsHtml.textContent = "00";
+    minutesHtml.textContent = "00";
+    playButton.classList.remove("fa", "fa-pause");
+    playButton.classList.add("fa", "fa-play");
+})
