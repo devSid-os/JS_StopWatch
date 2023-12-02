@@ -15,7 +15,12 @@ var timeObject = {
 };
 var playInterval;
 var timeLapseIndex = 0;
-var timeLapseDifference;
+var differenceTimeObject = {
+    miliSeconds: 0,
+    seconds: 0,
+    minutes: 0,
+    hours: 0
+}
 
 function incrementHour() {
     timeObject.hours = parseInt(hoursHtml.textContent);
@@ -92,21 +97,31 @@ resetButton.addEventListener("click", function () {
     hoursHtml.nextElementSibling.classList.add("hidden");
 });
 
+function setValue(value) {
+    if (value < 10) return `0${value}`;
+    return value;
+}
+
 timeLapseButton.addEventListener("click", function () {
+    var includeHours = hoursHtml.classList.contains("hidden");
+    var currentTime = !includeHours ? setValue(timeObject.hours) + " : " + setValue(timeObject.minutes) + " : " + setValue(timeObject.seconds) + " : " + setValue(timeObject.miliSeconds) : setValue(timeObject.minutes) + " : " + setValue(timeObject.seconds) + " : " + setValue(timeObject.miliSeconds);
     ++timeLapseIndex;
+    differenceTimeObject.miliSeconds = Math.abs(timeObject.miliSeconds - differenceTimeObject.miliSeconds);
+    differenceTimeObject.seconds = Math.abs(timeObject.seconds - differenceTimeObject.seconds);
+    differenceTimeObject.minutes = Math.abs(timeObject.minutes - differenceTimeObject.minutes);
     timeLapseTable.classList.remove("hidden");
     const tr = document.createElement("tr");
     const td1 = document.createElement("td");
     const td2 = document.createElement("td");
     const td3 = document.createElement("td");
     td1.textContent = timeLapseIndex < 10 ? "0" + timeLapseIndex : timeLapseIndex;
-    td2.textContent = "Dummy Time";
-    td3.textContent = "Dummy Time 2";
+    td2.textContent = setValue(differenceTimeObject.minutes) + " : " + setValue(differenceTimeObject.seconds) + " : " + setValue(differenceTimeObject.miliSeconds);
+    td3.textContent = currentTime;
     td1.classList.add("border", "border-slate-500", "text-center");
     td2.classList.add("border", "border-slate-500", "text-center");
     td3.classList.add("border", "border-slate-500", "text-center");
     tr.appendChild(td1);
     tr.appendChild(td2);
     tr.appendChild(td3);
-    timeLapseTable.childNodes[1].appendChild(tr);
+    timeLapseTable.childNodes[1].prepend(tr);
 });
