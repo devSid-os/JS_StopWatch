@@ -1,10 +1,12 @@
 const playButton = document.getElementById("playButton");
 const resetButton = document.getElementById("resetButton");
+const timeLapseButton = document.getElementById("timeLapse");
 var playStatus = false;
 const miliSecondsHtml = document.getElementById("miliSeconds");
 const secondsHtml = document.getElementById("seconds");
 const minutesHtml = document.getElementById("minutes");
 const hoursHtml = document.getElementById("hours");
+const timeLapseTable = document.getElementById("timeLapseTable");
 var timeObject = {
     miliSeconds: 0,
     seconds: 0,
@@ -12,6 +14,8 @@ var timeObject = {
     hours: 0
 };
 var playInterval;
+var timeLapseIndex = 0;
+var timeLapseDifference;
 
 function incrementHour() {
     timeObject.hours = parseInt(hoursHtml.textContent);
@@ -61,12 +65,16 @@ playButton.addEventListener("click", function () {
         playStatus = !playStatus;
         playButton.classList.remove("fa", "fa-play");
         playButton.classList.add("fa", "fa-pause");
+        resetButton.classList.add("hidden");
+        timeLapseButton.classList.remove("hidden");
         playInterval = setInterval(startStopWatch, 10);
     }
     else {
         playButton.classList.remove("fa", "fa-pause");
         playButton.classList.add("fa", "fa-play");
         clearInterval(playInterval);
+        resetButton.classList.remove("hidden");
+        timeLapseButton.classList.add("hidden");
         playStatus = !playStatus;
     }
 });
@@ -82,4 +90,23 @@ resetButton.addEventListener("click", function () {
     playButton.classList.add("fa", "fa-play");
     hoursHtml.classList.add("hidden");
     hoursHtml.nextElementSibling.classList.add("hidden");
+});
+
+timeLapseButton.addEventListener("click", function () {
+    ++timeLapseIndex;
+    timeLapseTable.classList.remove("hidden");
+    const tr = document.createElement("tr");
+    const td1 = document.createElement("td");
+    const td2 = document.createElement("td");
+    const td3 = document.createElement("td");
+    td1.textContent = timeLapseIndex < 10 ? "0" + timeLapseIndex : timeLapseIndex;
+    td2.textContent = "Dummy Time";
+    td3.textContent = "Dummy Time 2";
+    td1.classList.add("border", "border-slate-500", "text-center");
+    td2.classList.add("border", "border-slate-500", "text-center");
+    td3.classList.add("border", "border-slate-500", "text-center");
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    timeLapseTable.childNodes[1].appendChild(tr);
 });

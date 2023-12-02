@@ -22,8 +22,9 @@
         <div class="flex flex-col justify-between gap-16">
             <!-- Heading Div -->
             <div class="flex justify-between items-center gap-2">
-                <h1 class="text-2xl text-[#e85637] tracking-wider md:text-3xl">Stopwatch <span
-                        class="text-black dark:text-white">Using JavaScript</span></h1>
+                <h1 class="text-2xl text-[#e85637] tracking-wider md:text-3xl">Stopwatch
+                    <span class="text-black dark:text-white">Using JavaScript</span>
+                </h1>
                 <button class="p-2 rounded-md bg-black dark:bg-white" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                         class="bi bi-moon cursor-pointer text-white dark:text-black" viewBox="0 0 16 16">
@@ -37,29 +38,45 @@
             <div
                 class="w-[50%] flex justify-center items-center ml-auto mr-auto text-xl tracking-wider dark:text-white md:text-3xl md:w-[40%]">
                 <!-- For Hours -->
-                <p id="hours" class="flex-1 text-center hidden">00</p>
+                <p id="hours" class="flex-1 text-center select-none hidden">00</p>
                 <!-- Colon -->
                 <p class="hidden">:</p>
                 <!-- For Minutes -->
-                <p id="minutes" class="flex-1 text-center">00</p>
+                <p id="minutes" class="flex-1 text-center select-none">00</p>
                 <!-- Colon -->
                 <p>:</p>
                 <!-- For Seconds -->
-                <p id="seconds" class="flex-1 text-center">00</p>
+                <p id="seconds" class="flex-1 text-center select-none">00</p>
                 <!-- Colon -->
                 <p>:</p>
                 <!-- For miliseconds -->
-                <p id="miliSeconds" class="flex-1 text-center">00</p>
+                <p id="miliSeconds" class="flex-1 text-center select-none">00</p>
             </div>
 
             <!-- Buttons Div -->
             <div class="flex justify-center gap-4">
-                <button id="resetButton" class="fa fa-square p-2 px-3 text-sm rounded-full bg-black text-white dark:text-black dark:bg-white md:p-4 md:px-5 focus:outline-none">
+                <!-- Time Lapse Button -->
+                <button id="timeLapse"
+                    class="fa fa-hourglass hidden p-2 px-3 text-sm rounded-full bg-black text-white dark:bg-white dark:text-black md:p-4 md:px-5 focus:outline-none">
                 </button>
+                <!-- Reset Button -->
+                <button id="resetButton"
+                    class="fa fa-square p-2 px-3 text-sm rounded-full bg-black text-white dark:text-black dark:bg-white md:p-4 md:px-5 focus:outline-none">
+                </button>
+                <!-- Start Watch Button -->
                 <button id="playButton"
                     class="fa fa-play p-2 px-3 text-sm rounded-full bg-[#e85637] text-white md:p-4 md:px-5 focus:outline-none">
                 </button>
             </div>
+            <table id="timeLapseTable" class="hidden border-separate border border-spacing-2 border-slate-500 dark:text-white">
+                <tbody>
+                    <tr>
+                        <td class="border border-slate-500 text-center">01</td>
+                        <td class="border border-slate-500 text-center">+00:45:00</td>
+                        <td class="border border-slate-500 text-center">00:45:00</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </main>
     <script src="script.js"></script>
