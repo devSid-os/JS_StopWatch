@@ -1,12 +1,13 @@
+const htmlTag = document.getElementsByTagName("html")[0];
 const playButton = document.getElementById("playButton");
 const resetButton = document.getElementById("resetButton");
 const timeLapseButton = document.getElementById("timeLapse");
-var playStatus = false;
 const miliSecondsHtml = document.getElementById("miliSeconds");
 const secondsHtml = document.getElementById("seconds");
 const minutesHtml = document.getElementById("minutes");
 const hoursHtml = document.getElementById("hours");
 const timeLapseTable = document.getElementById("timeLapseTable");
+var playStatus = false;
 var timeObject = {
     miliSeconds: 0,
     seconds: 0,
@@ -15,12 +16,8 @@ var timeObject = {
 };
 var playInterval;
 var timeLapseIndex = 0;
-var timeStamps = {
-    miliSeconds: 0,
-    seconds: 0,
-    minutes: 0,
-    hours: 0
-}
+var lastTimeLapseValue;
+var currentTime = 0;
 
 function setValue(value, temp = false) {
     if (value >= 60 && temp) value = 0;
@@ -29,17 +26,14 @@ function setValue(value, temp = false) {
 }
 
 function incrementHour() {
-    timeObject.hours = parseInt(hoursHtml.textContent);
-    timeObject.hours++;
-    hoursHtml.textContent = setValue(timeObject.hours);
+    hoursHtml.textContent = setValue(++timeObject.hours);
 };
 
 function incrementMinute() {
-    timeObject.minutes = parseInt(minutesHtml.textContent);
-    timeObject.minutes++;
+    ++timeObject.minutes;
     if (timeObject.minutes >= 60) {
         hoursHtml.classList.remove("hidden");
-        hoursHtml.nextElementSibling.classList.remove("hidden");
+        timeObject.minutes = 0;
         minutesHtml.textContent = "00";
         incrementHour();
     }
@@ -47,19 +41,20 @@ function incrementMinute() {
 };
 
 function incrementSecond() {
-    timeObject.seconds = parseInt(secondsHtml.textContent);
-    timeObject.seconds++;
+    ++timeObject.seconds;
     if (timeObject.seconds >= 60) {
-        secondsHtml.textContent = "00";
+        timeObject.seconds = 0;
+        seconds.textContent = "00";
         incrementMinute();
     }
     else secondsHtml.textContent = setValue(timeObject.seconds);
 };
 
 function startStopWatch() {
-    timeObject.miliSeconds = parseInt(miliSecondsHtml.textContent);
-    timeObject.miliSeconds++;
+    currentTime += 10;
+    ++timeObject.miliSeconds;
     if (timeObject.miliSeconds >= 100) {
+        timeObject.miliSeconds = 0;
         miliSecondsHtml.textContent = "00";
         incrementSecond();
     }
@@ -86,6 +81,7 @@ playButton.addEventListener("click", function () {
 });
 
 resetButton.addEventListener("click", function () {
+    currentTime = 0;
     clearInterval(playInterval);
     playStatus = false;
     miliSecondsHtml.textContent = "00";
@@ -106,12 +102,10 @@ resetButton.addEventListener("click", function () {
 });
 
 timeLapseButton.addEventListener("click", function () {
+
     var includeHours = hoursHtml.classList.contains("hidden");
-
-    var currentTime = !includeHours ? setValue(timeObject.hours, true) + " : " + setValue(timeObject.minutes, true) + " : " + setValue(timeObject.seconds, true) + " : " + setValue(timeObject.miliSeconds, true) : setValue(timeObject.minutes, true) + " : " + setValue(timeObject.seconds, true) + " : " + setValue(timeObject.miliSeconds, true);
-
+    var timeLapseDiff;
     ++timeLapseIndex;
-
     timeLapseTable.classList.remove("hidden");
 
     const tr = document.createElement("tr");
@@ -120,25 +114,21 @@ timeLapseButton.addEventListener("click", function () {
     const td3 = document.createElement("td");
 
     td1.textContent = setValue(timeLapseIndex);
-
-    td2.textContent = !includeHours && (parseInt(hoursHtml.textContent) - timeStamps.hours) >= 1 ? "+ " + setValue((parseInt(hoursHtml.textContent) - timeStamps.hours), true) + " : " : "+ ";
+    td3.textContent = setValue(parseInt(currentTime / 60000)) + " : ";
+    td3.textContent += setValue(parseInt((currentTime % 60000) / 1000)) + " : ";
+    td3.textContent += setValue(parseInt(((currentTime % 60000) % 1000) / 10));
 
     if (timeLapseIndex === 1) {
-        timeStamps.miliSeconds = parseInt(miliSecondsHtml.textContent);
-        timeStamps.seconds = parseInt(secondsHtml.textContent);
-        timeStamps.minutes = parseInt(minutesHtml.textContent);
-        timeStamps.hours = parseInt(hoursHtml.textContent);
-        td2.textContent += setValue(timeObject.minutes, true) + " : " + setValue(timeObject.seconds, true) + " : " + setValue(timeObject.miliSeconds, true);
+        td2.textContent = td3.textContent;
     }
     else {
-        td2.textContent += setValue(Math.abs(parseInt(minutesHtml.textContent) - timeStamps.minutes), true) + " : " + setValue(Math.abs(parseInt(secondsHtml.textContent) - timeStamps.seconds), true) + " : " + setValue(Math.abs(parseInt(miliSecondsHtml.textContent) - timeStamps.miliSeconds), true);
-
-        timeStamps.hours = parseInt(hoursHtml.textContent);
-        timeStamps.minutes = parseInt(minutesHtml.textContent);
-        timeStamps.seconds = parseInt(secondsHtml.textContent);
-        timeStamps.miliSeconds = parseInt(miliSecondsHtml.textContent);
+        timeLapseDiff = currentTime - lastTimeLapseValue;
+        td2.textContent = setValue(parseInt(timeLapseDiff / 60000)) + " : ";
+        td2.textContent += setValue(parseInt((timeLapseDiff % 60000) / 1000)) + " : ";
+        td2.textContent += setValue(parseInt(((timeLapseDiff % 60000) % 1000) / 10));
     }
-    td3.textContent = currentTime;
+    lastTimeLapseValue = currentTime;
+
     td1.classList.add("border", "border-slate-500", "text-sm", "text-center", "md:text-md");
     td2.classList.add("border", "border-slate-500", "text-sm", "text-center", "md:text-md");
     td3.classList.add("border", "border-slate-500", "text-sm", "text-center", "md:text-md");
